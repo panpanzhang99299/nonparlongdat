@@ -1,6 +1,7 @@
 #include <RcppArmadillo.h>
 #include <math.h>
 using namespace Rcpp;
+using namespace arma;
 
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
