@@ -31,10 +31,10 @@ NULL
 #' @param data.z is a matrix/data frame of fully observed covariates.
 #' @param data.aux is a matrix/data frame of auxiliary variables.
 #' @param para.ini is a vector of initial values of parameters.
-#' @param cov.cont is a logistic argument given by `TRUE` if the missing
-#' covariates are continuous; `FALSE`, otherwise.
-#' @param aux.cont is a logistic argument given by `TRUE` if the auxiliary
-#' variable is continuous; `FALSE`, otherwise.
+#' @param cov.cont is a logistic argument given by \code{TRUE} if the missing
+#' covariates are continuous; \code{FALSE}, otherwise.
+#' @param aux.cont is a logistic argument given by \code{TRUE} if the auxiliary
+#' variable is continuous; \code{FALSE}, otherwise.
 #'
 #' @return a list including parameter estimates, standard errors and the
 #' convergence code

@@ -3,6 +3,15 @@
 using namespace Rcpp;
 using namespace arma;
 
+//' @param X Vector, a vector of numeric values
+//' @param mean Vector, the mean of multivariate normal
+//' @param Sigma Matrix, the variance-covariance matrix of multivariate normal 
+//' @return Returns the logarithm of the likelihood of X with multivariate normal with mean \code{mean} and variance \code{Sigma}
+//'
+//' @keywords internal
+//'
+ 
+
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
 
@@ -27,6 +36,13 @@ double logdmvnorm (arma::rowvec const &X, // Input
                           
 }
 
+//' @param Xi Vector, a vector of numeric values
+//' @param Xj Vector, a vector of numeric values
+//' @return Returns a vector indentifying valid \code{Xi} for \code{Xj}
+//' 
+//' @keywords internal
+//'
+
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
 
@@ -46,6 +62,13 @@ arma::rowvec ideniforj(arma::rowvec const &Xi,
   
 }
 
+//' @param Xi Vector, a vector of numeric values
+//' @param Sigma Matrix, a variance-covariance matrix
+//' @return Returns a matrix of correct dimension based on the index of \code{Xi}
+//' 
+//' @keywords internal
+//'
+
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
 
@@ -60,6 +83,16 @@ arma::mat idensigmaforj(arma::rowvec const &Xi,
   return out;
   
 }
+
+//' @param Y Matrix, a matrix of outcomes
+//' @param X Matrix, a matrix with missing covariates
+//' @param Z Matrix, a matrix with fully-observed covariates
+//' @param theta Vector, a vector of unknown parameters
+//' @param Sigma Matrix, a matrix of variance-covariance structure
+//' @return Returns the log-likelihood of the validation set
+//' 
+//' @keywords internal
+//'
 
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
@@ -104,6 +137,22 @@ double loglikvalid (arma::mat const &Y,
   return out;
   
 }
+
+//' @param Yval Matrix, a matrix of outcomes from the validation set
+//' @param Ynonval Matrix, a matrix of outcomes from the non-validation set
+//' @param Xval Matrix, a matrix of missing covariates from the validation set
+//' @param Xnonval Matrix, a matrix of missing covariates from the non-validation set
+//' @param Z Matrix, a matrix with fully-observed covariates
+//' @param auxval Matrix, a matrix of auxiliary variables from the validation set
+//' @param auxnonval Matrix, a matrix of auxiliary variables from the non-validation set
+//' @param theta Vector, a vector of unknown parameters
+//' @param Sigma Matrix, a matrix of variance-covariance structure
+//' @param H Vector, a vector of bandwidths
+//' @param auxcont, a logistic argument determining whether the auxiliary variables are continuous
+//' @return Returns the log-likelihood contributed by non-validation set with time-invariant X and time-invariant auxliary variables
+//' 
+//' @keywords internal
+//'
 
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
@@ -209,6 +258,21 @@ double logliknonvalidXinvauxinv (arma::mat const &Yval,
   
 }
 
+//' @param Yval Matrix, a matrix of outcomes from the validation set
+//' @param Ynonval Matrix, a matrix of outcomes from the non-validation set
+//' @param Xval Matrix, a matrix of missing covariates from the validation set
+//' @param Xnonval Matrix, a matrix of missing covariates from the non-validation set
+//' @param Z Matrix, a matrix with fully-observed covariates
+//' @param auxval Matrix, a matrix of auxiliary variables from the validation set
+//' @param auxnonval Matrix, a matrix of auxiliary variables from the non-validation set
+//' @param theta Vector, a vector of unknown parameters
+//' @param Sigma Matrix, a matrix of variance-covariance structure
+//' @param H Vector, a vector of bandwidths
+//' @return Returns the log-likelihood contributed by non-validation set with time-varying X and time-invariant auxliary variables
+//' 
+//' @keywords internal
+//'
+
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
 
@@ -305,6 +369,22 @@ double logliknonvalidXvaryauxinv (arma::mat const &Yval,
   return out;
   
 }
+
+//' @param Yval Matrix, a matrix of outcomes from the validation set
+//' @param Ynonval Matrix, a matrix of outcomes from the non-validation set
+//' @param Xval Matrix, a matrix of missing covariates from the validation set
+//' @param Xnonval Matrix, a matrix of missing covariates from the non-validation set
+//' @param Z Matrix, a matrix with fully-observed covariates
+//' @param auxval Matrix, a matrix of auxiliary variables from the validation set
+//' @param auxnonval Matrix, a matrix of auxiliary variables from the non-validation set
+//' @param theta Vector, a vector of unknown parameters
+//' @param Sigma Matrix, a matrix of variance-covariance structure
+//' @param H Vector, a vector of bandwidths
+//' @param auxcont, a logistic argument determining whether the auxiliary variables are continuous
+//' @return Returns the log-likelihood contributed by non-validation set with time-varying X and time-varying auxliary variables
+//' 
+//' @keywords internal
+//'
 
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
