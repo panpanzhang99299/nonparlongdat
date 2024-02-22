@@ -12,8 +12,8 @@ Depends: R (>= 2.10)
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-Imports: maxLik, Rcpp, RcppArmadillo 
-LinkingTo: maxLik, Rcpp, RcppArmadillo
+Imports: maxLik
+LinkingTo: Rcpp, RcppArmadillo
 URL: https://github.com/panpanzhang99299/nonparlongdat
 BugReports: https://github.com/panpanzhang99299/nonparlongdat/issues
 RoxygenNote: 7.3.1
