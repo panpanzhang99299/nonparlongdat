@@ -16,10 +16,8 @@
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ##
 
-#' @importFrom maxLik stats
-NULL
-
-#' @importFrom maxLik stats
+#' @importFrom maxLik maxLik 
+#' @importFrom stats bw.SJ
 NULL
 
 ## Nonparametric Estimation for Time-varying Covariates and Time-varying Auxiliary Variables

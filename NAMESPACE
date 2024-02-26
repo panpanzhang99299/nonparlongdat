@@ -3,3 +3,5 @@
 export(nonpara_X_timeinv_S_timeinv)
 export(nonpara_X_timevarying_S_timeinv)
 export(nonpara_X_timevarying_S_timevarying)
+importFrom(maxLik,maxLik)
+importFrom(stats,bw.SJ)
