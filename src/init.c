@@ -20,7 +20,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_nonparlongdat_logdmvnorm",                 (DL_FUNC) &_nonparlongdat_logdmvnorm,                   3},
     {"_nonparlongdat_ideniforj",                  (DL_FUNC) &_nonparlongdat_ideniforj,                    2},
     {"_nonparlongdat_idensigmaforj",              (DL_FUNC) &_nonparlongdat_idensigmaforj,                2},
-    {"_nonparlongdat_loglikvalid",                (DL_FUNC) &_nonparlongdat_loglikvalid,                  2},
+    {"_nonparlongdat_loglikvalid",                (DL_FUNC) &_nonparlongdat_loglikvalid,                  5},
     {"_nonparlongdat_logliknonvalidXinvauxinv",   (DL_FUNC) &_nonparlongdat_logliknonvalidXinvauxinv,    11},
     {"_nonparlongdat_logliknonvalidXvaryauxinv",  (DL_FUNC) &_nonparlongdat_logliknonvalidXvaryauxinv,   10},
     {"_nonparlongdat_logliknonvalidXvaryauxvary", (DL_FUNC) &_nonparlongdat_logliknonvalidXvaryauxvary,  11},
