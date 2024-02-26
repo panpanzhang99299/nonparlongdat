@@ -13,7 +13,7 @@ nonpara_X_timevarying_S_timevarying(
   data.z,
   data.aux,
   para.ini,
-  x.cont = TRUE,
+  cov.cont = TRUE,
   aux.cont = TRUE
 )
 }
@@ -34,11 +34,11 @@ missing values.}
 
 \item{para.ini}{is a vector of initial values of parameters.}
 
-\item{aux.cont}{is a logistic argument given by \code{TRUE} if the auxiliary
-variable is continuous; \code{FALSE}, otherwise.}
-
 \item{cov.cont}{is a logistic argument given by \code{TRUE} if the missing
 covariates are continuous; \code{FALSE}, otherwise.}
+
+\item{aux.cont}{is a logistic argument given by \code{TRUE} if the auxiliary
+variable is continuous; \code{FALSE}, otherwise.}
 }
 \value{
 a list including parameter estimates, standard errors and the

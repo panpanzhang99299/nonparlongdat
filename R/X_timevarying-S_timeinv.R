@@ -57,7 +57,7 @@ nonpara_X_timevarying_S_timeinv <- function(n.sub,
                                             data.z,
                                             data.aux,
                                             para.ini,
-                                            x.cont = TRUE,
+                                            cov.cont = TRUE,
                                             aux.cont = TRUE) {
   n <- n.sub
   
