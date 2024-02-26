@@ -16,15 +16,17 @@
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ##
 
-#' @importFrom Rcpp RcppArmadillo maxLik
+#' @importFrom maxLik
 NULL
 
-## Nonparametric Estimation for Time-varying Covariates and Time-varying
-## Auxiliary Variables
+## Nonparametric Estimation for Time-varying Covariates and Time-varying Auxiliary Variables
 
 #' This function performs a nonparametric estimation with missing data in
 #' time-varying covariates using time-varying auxilirary information.
 #'
+#' @param n.sub is a numeric input of the total number of subjects
+#' @param m.visit is a numeric input of the total (maximum) number of visits for
+#' each subject
 #' @param data.y is a matrix/data frame of all longitudinal outcomes.
 #' @param data.x is a matrix/data frame of time-varying covariates containing
 #' missing values.
@@ -45,16 +47,20 @@ NULL
 #'
 #' @keywords time-varying covariates, time-varing auxiliary variables
 #'
+#' @export
 
-
-nonpara_X_timevarying_S_timevarying <- function(data.y,
+nonpara_X_timevarying_S_timevarying <- function(n.sub,
+                                                m.visit,
+                                                data.y,
                                                 data.x,
                                                 data.z,
                                                 data.aux,
                                                 para.ini,
                                                 x.cont = TRUE,
                                                 aux.cont = TRUE) {
-  sourceCpp("kernelest.cpp")
+  n <- n.sub
+  
+  m <- m.visit
   
   Y_miss_wide <- matrix(data.y, ncol = m)
   
@@ -66,9 +72,9 @@ nonpara_X_timevarying_S_timevarying <- function(data.y,
   
   ## Missing value indicator
   temp <- sapply(c(1:n), function(x) {
-    tempY <- which(is.na(Y_miss_wide[x,]) == FALSE)
+    tempY <- which(is.na(Y_miss_wide[x, ]) == FALSE)
     
-    tempX <- which(is.na(X_miss_wide[x,]) == FALSE)
+    tempX <- which(is.na(X_miss_wide[x, ]) == FALSE)
     
     if (all(tempY %in% tempX)) {
       return(TRUE)
@@ -94,7 +100,7 @@ nonpara_X_timevarying_S_timevarying <- function(data.y,
   
   ## Bandwidth
   H <- sapply(c(1:m), function(x) {
-    bw.SJ(X_aux_wide[V, x])
+    stats::bw.SJ(X_aux_wide[V, x])
   })
   ## H <- sapply(c(1:m), function(x){1.06*sd(X_aux_wide[V,x])*n^(-1/5)})
   
@@ -110,30 +116,28 @@ nonpara_X_timevarying_S_timevarying <- function(data.y,
     
     theta3e <- para[3]
     
-    lambdae <- lambda
+    lambdae <- para[4]
     
-    sigmae <- sigma
+    sigmae <- para[5]
     
     ## The likelihood of the validation set
-    
-    theta.vec <- c(theta1e, theta2e, theta3e)
+    theta.vec <- c(theta1e, theta2e, theta3e, lambdae, sigmae)
     
     Sigma.mat <- matrix(lambdae ^ 2, m, m) + diag(sigmae ^ 2, m)
     
     likcontri_valid <-
-      loglikvalid (Y_miss_wide[V,], X_miss_wide[V,], Z_wide[V,], theta.vec, Sigma.mat)
+      loglikvalid (Y_miss_wide[V, ], X_miss_wide[V, ], Z_wide[V, ], theta.vec, Sigma.mat)
     
     ## The likelihood of the nonvalidation set
-    
     likcontri_nonv <-
       logliknonvalidXvaryauxinv(
-        Y_miss_wide[V,],
-        Y_miss_wide[V_nonv,],
-        X_miss_wide[V,],
-        X_miss_wide[V_nonv,],
-        Z_wide[V_nonv,],
-        X_aux_wide[V,],
-        X_aux_wide[V_nonv,],
+        Y_miss_wide[V, ],
+        Y_miss_wide[V_nonv, ],
+        X_miss_wide[V, ],
+        X_miss_wide[V_nonv, ],
+        Z_wide[V_nonv, ],
+        X_aux_wide[V, ],
+        X_aux_wide[V_nonv, ],
         theta.vec,
         Sigma.mat,
         H
@@ -142,7 +146,8 @@ nonpara_X_timevarying_S_timevarying <- function(data.y,
     return(likcontri_valid + likcontri_nonv)
   }
   
-  para_mle <- maxLik(loglik.nlme, start = para_ini, method = "BFGS")
+  para_mle <-
+    maxLik::maxLik(loglik.nlme, start = para.ini, method = "BFGS")
   
   para_sum <- summary(para_mle)
   
