@@ -1,16 +1,19 @@
 # Nonparametric Estimation Methods for Longitudinal Data Analysis
 
-The $\mathtt{nonparlongdat}$ package provides a nonparametric estimation method for missing covariates in longitudinal data analysis. The package contains
-functions dealing with 
+The `nonparlongdat` package intends to be a user-friendly package implementing a nonparametric estimation method for missing covariates in longitudinal data analysis. 
 
-1. Time-invariant missing covariates with time-invariant complete auxiliary variables
-2. Time-varying missing covariates with time-invariant complete auxiliary variables
-3. Time-varying missing covariates with time-varying complete auxiliary variables
+## Features
+
+The package provides functions to deal with 
+
+1. time-invariant missing covariates with time-invariant complete auxiliary variables
+2. time-varying missing covariates with time-invariant complete auxiliary variables
+3. time-varying missing covariates with time-varying complete auxiliary variables
 
 
 ## Installation
 
-You can install $\mathtt{nonparlongdat}$ package from GitHub with:
+You can install `nonparlongdat` package from GitHub with:
 
 ``` r
 # install.packages("devtools")
