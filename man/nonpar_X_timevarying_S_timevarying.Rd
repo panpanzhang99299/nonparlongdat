@@ -54,8 +54,4 @@ To be added
 \references{
 To be added
 }
-\keyword{auxiliary}
-\keyword{covariates,}
-\keyword{time-varing}
-\keyword{time-varying}
-\keyword{variables}
+\keyword{internal}

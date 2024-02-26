@@ -46,7 +46,7 @@ NULL
 #'
 #' @note To be added
 #'
-#' @keywords time-varying covariates, time-varing auxiliary variables
+#' @keywords internal
 #'
 #' @export
 
