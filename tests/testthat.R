@@ -1,4 +1,4 @@
 library(testthat)
 library(nonparlongdat)
 
-test_check("nonparlongdat")
+testthat::test_check("nonparlongdat")
