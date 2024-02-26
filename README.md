@@ -1,3 +1,5 @@
+# Nonparametric Estimation Methods for Longitudinal Data Analysis
+
 The **nonparlongdat** package provides a nonparametric estimation method for missing covariates in longitudinal data analysis. The package contains
 functions dealing with 
 

@@ -49,15 +49,16 @@ NULL
 #'
 #' @export
 
-nonpara_X_timevarying_S_timevarying <- function(n.sub,
-                                                m.visit,
-                                                data.y,
-                                                data.x,
-                                                data.z,
-                                                data.aux,
-                                                para.ini,
-                                                x.cont = TRUE,
-                                                aux.cont = TRUE) {
+
+nonpara_X_timeinv_S_timeinv <- function(n.sub,
+                                        m.visit,
+                                        data.y,
+                                        data.x,
+                                        data.z,
+                                        data.aux,
+                                        para.ini,
+                                        x.cont = TRUE,
+                                        aux.cont = TRUE) {
   n <- n.sub
   
   m <- m.visit
@@ -70,23 +71,13 @@ nonpara_X_timevarying_S_timevarying <- function(n.sub,
   
   X_aux_wide <- matrix(data.aux, ncol = m)
   
+  
   ## Missing value indicator
-  temp <- sapply(c(1:n), function(x) {
-    tempY <- which(is.na(Y_miss_wide[x, ]) == FALSE)
-    
-    tempX <- which(is.na(X_miss_wide[x, ]) == FALSE)
-    
-    if (all(tempY %in% tempX)) {
-      return(TRUE)
-      
-    } else {
-      FALSE
-    }
-    
-  })
+  temp <- Y_miss_wide + X_miss_wide
+  temp[is.na(temp)] = 0
   
   ## Identify the validation set
-  V <- which(temp == TRUE)
+  V <- which(rowSums(temp) > 0)
   
   ## Number of the subjects in the validation set
   v <- length(V)
@@ -97,52 +88,105 @@ nonpara_X_timevarying_S_timevarying <- function(n.sub,
   ## Number of the subjects in the non-validation set
   v_nonv <- length(V_nonv)
   
-  ## Bandwidth
-  H <- sapply(c(1:m), function(x) {
-    stats::bw.SJ(X_aux_wide[V, x])
-  })
-  # H <- sapply(c(1:m), function(x){1.06*sd(X_aux_wide[V,x])*n^(-1/5)})
-  
   ##------------------------------------------------------------------------------------------------------------
   ########################################
   #### Compute the full log liklihood ####
   ########################################
   
-  loglik.nlme <- function(para) {
-    theta1e <- para[1]
+  if (aux.cont == TRUE) {
+    ## Bandwidth
+    H <- sapply(c(1:m), function(x) {
+      stats::bw.SJ(X_aux_wide[V, x])
+    })
+    # H <- sapply(c(1:m), function(x){1.06*sd(X_aux_wide[V,x])*n^(-1/5)})
     
-    theta2e <- para[2]
+    loglik.nlme <- function(para) {
+      theta1e <- para[1]
+      
+      theta2e <- para[2]
+      
+      theta3e <- para[3]
+      
+      lambdae <- para[4]
+      
+      sigmae <- para[5]
+      
+      ## The likelihood of the validation set
+      theta.vec <- c(theta1e, theta2e, theta3e, lambdae, sigmae)
+      
+      Sigma.mat <- matrix(lambdae ^ 2, m, m) + diag(sigmae ^ 2, m)
+      
+      likcontri_valid <-
+        loglikvalid (Y_miss_wide[V, ],
+                     X_miss_wide[V, ],
+                     Z_wide[V, ],
+                     theta.vec,
+                     Sigma.mat)
+      
+      ## The likelihood of the nonvalidation set
+      likcontri_nonv <-
+        logliknonvalidXinvauxinv(
+          Y_miss_wide[V, ],
+          Y_miss_wide[V_nonv, ],
+          X_miss_wide[V, ],
+          X_miss_wide[V_nonv, ],
+          Z_wide[V_nonv, ],
+          X_aux_wide[V, ],
+          X_aux_wide[V_nonv, ],
+          theta.vec,
+          Sigma.mat,
+          H,
+          aux.cont
+        )
+      
+      return(likcontri_valid + likcontri_nonv)
+    }
     
-    theta3e <- para[3]
+  } else if (aux.cont == FALSE) {
+    H <- rep(NA, m)
     
-    lambdae <- para[4]
+    loglik.nlme <- function(para) {
+      theta1e <- para[1]
+      
+      theta2e <- para[2]
+      
+      theta3e <- para[3]
+      
+      lambdae <- para[4]
+      
+      sigmae <- para[5]
+      
+      ## The likelihood of the validation set
+      theta.vec <- c(theta1e, theta2e, theta3e, lambdae, sigmae)
+      
+      Sigma.mat <- matrix(lambdae ^ 2, m, m) + diag(sigmae ^ 2, m)
+      
+      likcontri_valid <-
+        loglikvalid (Y_miss_wide[V, ],
+                     X_miss_wide[V, ],
+                     Z_wide[V, ],
+                     theta.vec,
+                     Sigma.mat)
+      
+      ## The likelihood of the nonvalidation set
+      likcontri_nonv <-
+        logliknonvalidXinvauxinv(
+          Y_miss_wide[V, ],
+          Y_miss_wide[V_nonv, ],
+          X_miss_wide[V, ],
+          X_miss_wide[V_nonv, ],
+          Z_wide[V_nonv, ],
+          X_aux_wide[V, ],
+          X_aux_wide[V_nonv, ],
+          theta.vec,
+          Sigma.mat,
+          H,
+          aux.cont
+        )
+      
+      return(likcontri_valid + likcontri_nonv)
+    }
     
-    sigmae <- para[5]
-    
-    ## The likelihood of the validation set
-    theta.vec <- c(theta1e, theta2e, theta3e, lambdae, sigmae)
-    
-    Sigma.mat <- matrix(lambdae ^ 2, m, m) + diag(sigmae ^ 2, m)
-    
-    likcontri_valid <-
-      loglikvalid (Y_miss_wide[V, ], X_miss_wide[V, ], Z_wide[V, ], theta.vec, Sigma.mat)
-    
-    ## The likelihood of the nonvalidation set
-    likcontri_nonv <-
-      logliknonvalidXvaryauxinv(
-        Y_miss_wide[V, ],
-        Y_miss_wide[V_nonv, ],
-        X_miss_wide[V, ],
-        X_miss_wide[V_nonv, ],
-        Z_wide[V_nonv, ],
-        X_aux_wide[V, ],
-        X_aux_wide[V_nonv, ],
-        theta.vec,
-        Sigma.mat,
-        H
-      )
-    
-    return(likcontri_valid + likcontri_nonv)
   }
   
   para_mle <-
