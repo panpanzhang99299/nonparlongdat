@@ -19,6 +19,39 @@
 #' @importFrom maxLik stats
 NULL
 
+#' @importFrom maxLik stats
+NULL
+
+## Nonparametric Estimation for Time-varying Covariates and Time-varying Auxiliary Variables
+
+#' This function performs a nonparametric estimation with missing data in
+#' time-varying covariates using time-varying auxilirary information.
+#'
+#' @param n.sub is a numeric input of the total number of subjects
+#' @param m.visit is a numeric input of the total (maximum) number of visits for
+#' each subject
+#' @param data.y is a matrix/data frame of all longitudinal outcomes.
+#' @param data.x is a matrix/data frame of time-varying covariates containing
+#' missing values.
+#' @param data.z is a matrix/data frame of fully observed covariates.
+#' @param data.aux is a matrix/data frame of auxiliary variables.
+#' @param para.ini is a vector of initial values of parameters.
+#' @param cov.cont is a logistic argument given by \code{TRUE} if the missing
+#' covariates are continuous; \code{FALSE}, otherwise.
+#' @param aux.cont is a logistic argument given by \code{TRUE} if the auxiliary
+#' variable is continuous; \code{FALSE}, otherwise.
+#'
+#' @return a list including parameter estimates, standard errors and the
+#' convergence code
+#'
+#' @references To be added
+#'
+#' @note To be added
+#'
+#' @keywords time-varying covariates, time-varing auxiliary variables
+#'
+#' @export
+
 nonpara_X_timevarying_S_timeinv <- function(n.sub,
                                             m.visit,
                                             data.y,
