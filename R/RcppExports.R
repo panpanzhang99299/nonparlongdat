@@ -11,7 +11,7 @@
 #' @keywords internal
 #'
 logdmvnorm <- function(X, mean, Sigma) {
-    .Call('_nonparlongdat_logdmvnorm', PACKAGE = 'nonparlongdat', X, mean, Sigma)
+    .Call(`_nonparlongdat_logdmvnorm`, X, mean, Sigma)
 }
 
 #' Identify subject index from the validation set
@@ -23,7 +23,7 @@ logdmvnorm <- function(X, mean, Sigma) {
 #' @keywords internal
 #'
 ideniforj <- function(Xi, Xj) {
-    .Call('_nonparlongdat_ideniforj', PACKAGE = 'nonparlongdat', Xi, Xj)
+    .Call(`_nonparlongdat_ideniforj`, Xi, Xj)
 }
 
 #' Determine variance-covariance matrix (with correct dimension)
@@ -35,7 +35,7 @@ ideniforj <- function(Xi, Xj) {
 #' @keywords internal
 #'
 idensigmaforj <- function(Xi, Sigma) {
-    .Call('_nonparlongdat_idensigmaforj', PACKAGE = 'nonparlongdat', Xi, Sigma)
+    .Call(`_nonparlongdat_idensigmaforj`, Xi, Sigma)
 }
 
 #' Calculate the log-likelhood of the validation set
@@ -50,7 +50,7 @@ idensigmaforj <- function(Xi, Sigma) {
 #' @keywords internal
 #'
 loglikvalid <- function(Y, X, Z, theta, Sigma) {
-    .Call('_nonparlongdat_loglikvalid', PACKAGE = 'nonparlongdat', Y, X, Z, theta, Sigma)
+    .Call(`_nonparlongdat_loglikvalid`, Y, X, Z, theta, Sigma)
 }
 
 #' Calculate the log-likelihood of the non-validation set (time-invariant X and time-invariant auxiliary variables)
@@ -71,7 +71,7 @@ loglikvalid <- function(Y, X, Z, theta, Sigma) {
 #' @keywords internal
 #'
 logliknonvalidXinvauxinv <- function(Yval, Ynonval, Xval, Xnonval, Z, auxval, auxnonval, theta, Sigma, H, auxcont) {
-    .Call('_nonparlongdat_logliknonvalidXinvauxinv', PACKAGE = 'nonparlongdat', Yval, Ynonval, Xval, Xnonval, Z, auxval, auxnonval, theta, Sigma, H, auxcont)
+    .Call(`_nonparlongdat_logliknonvalidXinvauxinv`, Yval, Ynonval, Xval, Xnonval, Z, auxval, auxnonval, theta, Sigma, H, auxcont)
 }
 
 #' Calculate the log-likelihood of the non-validation set (time-varying X and time-invariant auxiliary variables)
@@ -91,7 +91,7 @@ logliknonvalidXinvauxinv <- function(Yval, Ynonval, Xval, Xnonval, Z, auxval, au
 #' @keywords internal
 #'
 logliknonvalidXvaryauxinv <- function(Yval, Ynonval, Xval, Xnonval, Z, auxval, auxnonval, theta, Sigma, H) {
-    .Call('_nonparlongdat_logliknonvalidXvaryauxinv', PACKAGE = 'nonparlongdat', Yval, Ynonval, Xval, Xnonval, Z, auxval, auxnonval, theta, Sigma, H)
+    .Call(`_nonparlongdat_logliknonvalidXvaryauxinv`, Yval, Ynonval, Xval, Xnonval, Z, auxval, auxnonval, theta, Sigma, H)
 }
 
 #' Calculate the log-likelihood of the non-validation set (time-varying X and time-varying auxiliary variables)
@@ -112,6 +112,6 @@ logliknonvalidXvaryauxinv <- function(Yval, Ynonval, Xval, Xnonval, Z, auxval, a
 #' @keywords internal
 #'
 logliknonvalidXvaryauxvary <- function(Yval, Ynonval, Xval, Xnonval, Z, auxval, auxnonval, theta, Sigma, H, auxcont) {
-    .Call('_nonparlongdat_logliknonvalidXvaryauxvary', PACKAGE = 'nonparlongdat', Yval, Ynonval, Xval, Xnonval, Z, auxval, auxnonval, theta, Sigma, H, auxcont)
+    .Call(`_nonparlongdat_logliknonvalidXvaryauxvary`, Yval, Ynonval, Xval, Xnonval, Z, auxval, auxnonval, theta, Sigma, H, auxcont)
 }
 
